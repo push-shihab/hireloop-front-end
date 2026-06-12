@@ -5,10 +5,19 @@ import { Link, Button } from "@heroui/react";
 import { FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
 import Image from "next/image";
 import logo from "../../../public/images/logo.png";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function Navbar() {
   // Simple layout toggle state for smaller devices
   const [isOpen, setIsOpen] = useState(false);
+  // Session
+  const { data } = authClient.useSession();
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    redirect("/");
+  };
 
   return (
     <nav className="fixed top-4 z-50 w-full px-4 sm:px-6">
@@ -33,9 +42,12 @@ export default function Navbar() {
           </button>
 
           {/* Logo Branding Layout */}
-          <div className="flex items-center gap-1 cursor-pointer select-none">
+          <Link
+            href="/"
+            className="flex items-center gap-1 cursor-pointer select-none"
+          >
             <Image src={logo} alt="HireLoop Logo" priority />
-          </div>
+          </Link>
         </div>
 
         {/* Center: Main Navigation Links - hidden on mobile viewports */}
@@ -63,22 +75,36 @@ export default function Navbar() {
         {/* Right: Actions / Auth Button Group */}
         <div className="flex items-center gap-4">
           {/* Vertical layout divider - matches desktop design layout */}
+          {data?.session && <h2>Hello {data.user.name}!</h2>}
           <div className="hidden sm:block h-5 w-px bg-gray-200 mr-1" />
 
-          <Link
-            href="#"
-            className="text-[15px] font-semibold text-[#5b4eff] hover:text-[#4034cc] transition-colors px-2 py-1"
-          >
-            Sign In
-          </Link>
-
-          <Button
-            href="#"
-            className="bg-linear-to-r from-[#635bff] to-[#4c40ff] text-white font-semibold text-[14px] px-5 h-10 rounded-xl shadow-md hover:shadow-lg hover:opacity-95 transition-all duration-200"
-            endContent={<FiArrowUpRight className="text-base" />}
-          >
-            Get Started
-          </Button>
+          {data?.session ? (
+            <Link
+              onClick={handleSignOut}
+              href="#"
+              className="text-[15px] font-semibold text-[#ff4e4e] hover:text-[#cc3434] transition-colors px-2 py-1"
+            >
+              Sign Out
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="text-[15px] font-semibold text-[#5b4eff] hover:text-[#4034cc] transition-colors px-2 py-1"
+              >
+                Sign In
+              </Link>
+              <Link href="/signup">
+                <Button
+                  href="#"
+                  className="bg-linear-to-r from-[#635bff] to-[#4c40ff] text-white font-semibold text-[14px] px-5 h-10 rounded-xl shadow-md hover:shadow-lg hover:opacity-95 transition-all duration-200"
+                  endContent={<FiArrowUpRight className="text-base" />}
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
