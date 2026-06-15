@@ -1,5 +1,6 @@
 import CompanyAllJobTable from "@/components/jobs/CompanyAllJobTable";
 import { auth } from "@/lib/auth";
+import { getRecruiterCopmany } from "@/utils/actions/companies";
 import { getCompanyJobs } from "@/utils/api/jobs";
 import { headers } from "next/headers";
 
@@ -7,8 +8,9 @@ export default async function AllJobs() {
   const { user } = await auth.api.getSession({
     headers: await headers(),
   });
+  const recruiterCompany = await getRecruiterCopmany(user.id);
 
-  const jobs = await getCompanyJobs(user.id);
+  const jobs = await getCompanyJobs(recruiterCompany._id);
 
   return (
     <div className="space-y-5 p-5">

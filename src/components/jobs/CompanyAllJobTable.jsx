@@ -3,7 +3,7 @@
 import { Table, Chip } from "@heroui/react";
 import { FiEye, FiEdit2, FiTrash2 } from "react-icons/fi";
 
-const CompanyAllJobTable = ({ jobs = [] }) => {
+const CompanyAllJobTable = ({ jobs }) => {
   return (
     <Table className="w-full text-zinc-900">
       <Table.ScrollContainer>
@@ -41,7 +41,7 @@ const CompanyAllJobTable = ({ jobs = [] }) => {
                 </Table.Cell>
 
                 <Table.Cell className="text-zinc-600">
-                  {job.location}
+                  {job.location.length == 0 ? "Remote" : job.location}
                 </Table.Cell>
 
                 <Table.Cell>

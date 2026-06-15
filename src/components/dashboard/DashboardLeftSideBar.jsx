@@ -112,6 +112,7 @@ import {
 } from "react-icons/fi";
 
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { SiSparkpost } from "react-icons/si";
 
 export default function DashboardLeftSideBar() {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -119,17 +120,22 @@ export default function DashboardLeftSideBar() {
     {
       name: "Dashboard",
       icon: <FiGrid className="text-lg" />,
-      href: "/dashboard",
+      href: "/dashboard/recruiter",
     },
     {
       name: "My Company",
       icon: <HiOutlineOfficeBuilding className="text-xl" />,
-      href: "/company",
+      href: "/dashboard/recruiter/company",
     },
     {
       name: "Manage Jobs",
       icon: <FiBriefcase className="text-lg" />,
-      href: "/jobs",
+      href: "/dashboard/recruiter/jobs",
+    },
+    {
+      name: "Post Jobs",
+      icon: <SiSparkpost className="text-lg" />,
+      href: "/dashboard/recruiter/jobs/new",
     },
     {
       name: "Applications",
@@ -152,7 +158,6 @@ export default function DashboardLeftSideBar() {
             key={item.name}
             href={item.href}
             onClick={(e) => {
-              e.preventDefault(); // Keeping layout safe as requested
               setActiveTab(item.name);
             }}
             className={`

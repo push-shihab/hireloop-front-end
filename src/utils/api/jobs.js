@@ -1,6 +1,9 @@
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+import { getData } from "../actions/server";
+
 export async function getCompanyJobs(companyId) {
-  const fetchUrl = await fetch(`${baseUrl}/api/jobs?companyId=${companyId}`);
-  const res = await fetchUrl.json();
-  return res;
+  return await getData(`/api/jobs?companyId=${companyId}`);
+}
+
+export async function getAllJobs() {
+  return await getData("/api/all-jobs");
 }
