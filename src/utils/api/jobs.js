@@ -7,3 +7,7 @@ export async function getCompanyJobs(companyId) {
 export async function getAllJobs() {
   return await getData("/api/all-jobs");
 }
+
+export async function getJobDetailsById(id) {
+  return await getData(`/api/jobs/${id}`);
+}

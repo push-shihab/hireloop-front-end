@@ -10,6 +10,7 @@ import {
   FiCheckCircle,
   FiGift,
 } from "react-icons/fi";
+import Image from "next/image";
 
 const ShowJobs = ({ job }) => {
   // Format workspace type layout
@@ -52,12 +53,15 @@ const ShowJobs = ({ job }) => {
       {/* 🏷️ Card Header Wrap */}
       <Card.Header className="flex justify-between items-start gap-3 pb-3">
         <Card.Title className="flex items-center gap-3">
-          <Avatar
-            src={job?.companyLogoUrl}
-            name={job?.companyName}
-            radius="xl"
-            className="w-11 h-11 border border-gray-100 bg-gray-50 text-gray-600 font-bold text-sm shrink-0"
-          />
+          <div className="w-12 h-12 rounded-2xl border border-gray-100 flex items-center justify-center bg-gray-50 shrink-0 overflow-hidden">
+            <Image
+              src={job?.companyLogoUrl}
+              alt={job?.companyName}
+              width={100}
+              height={100}
+              className="w-full h-full object-cover rounded-xl"
+            />
+          </div>
           <div className="flex flex-col items-start">
             <h4 className="text-sm font-bold text-gray-800 leading-tight">
               {job?.companyName}
@@ -160,10 +164,10 @@ const ShowJobs = ({ job }) => {
         </div>
 
         <Link
-          href="#"
+          href={`/jobs/${job._id}`}
           className="inline-flex items-center gap-1 text-[13px] font-bold text-gray-800 hover:text-[#5b4eff] transition-colors group cursor-pointer"
         >
-          Apply Now
+          View Details
           <FiArrowRight className="text-xs transition-transform duration-200 group-hover:translate-x-0.5" />
         </Link>
       </Card.Footer>

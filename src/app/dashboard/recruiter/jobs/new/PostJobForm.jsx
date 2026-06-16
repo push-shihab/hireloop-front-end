@@ -50,6 +50,7 @@ export default function PostJobForm({ company }) {
       companyId: company._id,
       companyName: company.name,
       companyLogoUrl: company.logoUrl,
+      companyWebsite: company.website,
     };
     const res = await createNewJob(newJob);
     if (res.acknowledged) {
