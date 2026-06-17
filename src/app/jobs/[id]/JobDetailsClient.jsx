@@ -18,20 +18,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const JobDetailsClient = ({ job }) => {
-  const [isApplying, setIsApplying] = useState(false);
-
-  // Parse arrays securely out of flat text fields if comma separated
   const detailsList = (text) => text.split(",").map((item) => item.trim());
 
-  const handleApply = () => {
-    setIsApplying(true);
-    setTimeout(() => {
-      alert(
-        `Application tracking initiated for: ${job.jobTitle} at ${job.companyName}`,
-      );
-      setIsApplying(false);
-    }, 1200);
-  };
   return (
     <main className="w-full bg-[#fafafa] min-h-screen py-16 px-4 md:px-8 text-gray-900">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -210,15 +198,11 @@ const JobDetailsClient = ({ job }) => {
                 </p>
               </div>
             </div>
-
-            <Button
-              isLoading={isApplying}
-              onClick={handleApply}
-              className="w-full h-12 bg-[#5b4eff] text-white font-bold rounded-2xl text-sm transition-transform active:scale-[0.98] shadow-lg shadow-[#5b4eff]/20 hover:bg-[#493ce6]"
-              endContent={!isApplying && <FiArrowRight className="text-base" />}
-            >
-              {isApplying ? "Processing Gateway..." : "Apply For Position"}
-            </Button>
+            <Link href={`/jobs/${job._id}/apply`}>
+              <Button className="w-full h-12 bg-[#5b4eff] text-white font-bold rounded-2xl text-sm transition-transform active:scale-[0.98] shadow-lg shadow-[#5b4eff]/20 hover:bg-[#493ce6]">
+                Apply For Position
+              </Button>
+            </Link>
 
             <p className="text-[11px] text-gray-400 leading-relaxed">
               By proceeding, your profile ecosystem payload will be submitted

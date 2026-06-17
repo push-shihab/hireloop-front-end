@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { Card, Button, Input, Link } from "@heroui/react";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
+import { redirect, useSearchParams } from "next/navigation";
 
 export default function SignIn() {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const params = useSearchParams();
+  const redirectPath = params.get("redirect");
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -31,11 +34,17 @@ export default function SignIn() {
       email: data.email,
       password: data.password,
       rememberMe: true,
-      callbackURL: "/",
     });
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+    if (res.token) {
+      if (redirectPath) {
+        redirect(`${redirectPath}`);
+      } else {
+        redirect("/");
+      }
+    }
   };
 
   return (
@@ -148,7 +157,9 @@ export default function SignIn() {
           <div className="text-center pt-2 text-sm text-zinc-400">
             New to this app?{" "}
             <Link
-              href="/signup"
+              href={
+                redirectPath ? `/signup?redirect=${redirectPath}` : "/signup"
+              }
               className="text-sm font-medium text-[#00b4d8] hover:underline inline"
             >
               Sign up instead

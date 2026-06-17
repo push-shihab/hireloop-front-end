@@ -78,7 +78,7 @@ export default function Navbar() {
               Company
             </Link>
             <Link
-              href="#"
+              href="/plans"
               className="text-[15px] font-medium text-gray-600 hover:text-black transition-colors"
             >
               Pricing
@@ -124,21 +124,21 @@ export default function Navbar() {
           <div className="sm:hidden absolute left-4 right-4 mt-2 p-5 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="flex flex-col gap-4">
               <Link
-                href="#"
+                href="/jobs"
                 onClick={() => setIsOpen(false)}
                 className="text-[16px] font-medium text-gray-700 hover:text-black py-2 border-b border-gray-50 transition-colors w-full block"
               >
                 Browse Jobs
               </Link>
               <Link
-                href="#"
+                href="/dashboard/recruiter/company"
                 onClick={() => setIsOpen(false)}
                 className="text-[16px] font-medium text-gray-700 hover:text-black py-2 border-b border-gray-50 transition-colors w-full block"
               >
                 Company
               </Link>
               <Link
-                href="#"
+                href="/plans"
                 onClick={() => setIsOpen(false)}
                 className="text-[16px] font-medium text-gray-700 hover:text-black py-2 pb-3 transition-colors w-full block"
               >

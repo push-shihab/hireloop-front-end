@@ -4,11 +4,14 @@ import { useForm } from "react-hook-form";
 import { Card, Button, Input, Link } from "@heroui/react";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 export default function SignUp() {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const params = useSearchParams();
+  const redirectPath = params.get("redirect");
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -28,19 +31,24 @@ export default function SignUp() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+    const plan = data.role === "recruiter" ? "recruiter_free" : "seeker_free";
     const { data: res, error } = await authClient.signUp.email({
       name: data.name,
       email: data.email,
       password: data.password,
       role: data.subscriptionPlan,
+      plan,
       callbackURL: "/",
     });
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
     if (res) {
-      await authClient.signOut();
-      redirect("/signin");
+      if (redirectPath) {
+        redirect(`${redirectPath}`);
+      } else {
+        redirect("/");
+      }
     }
   };
 
@@ -206,7 +214,9 @@ export default function SignUp() {
           <div className="text-center pt-2 text-sm text-zinc-400">
             Already have an account?{" "}
             <Link
-              href="/signin"
+              href={
+                redirectPath ? `/signin?redirect=${redirectPath}` : "/signin"
+              }
               className="text-sm font-medium text-[#00b4d8] hover:underline inline"
             >
               Sign in instead
